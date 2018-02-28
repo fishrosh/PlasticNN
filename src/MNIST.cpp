@@ -77,19 +77,19 @@ std::unique_ptr<char> MNISTLoader::FetchItem()
 	return nullptr;
 }
 
-std::unique_ptr<char> MNISTLoader::FetchAll()
+std::unique_ptr<MNISTLoader::uchar> MNISTLoader::FetchAll()
 {
 	if (currItem == 0)
 	{
-		std::allocator<char> myAlloc;
+		std::allocator<uchar> myAlloc;
 		long unitSize = get_unit_size();
-		char* output = myAlloc.allocate(unitSize * dimCount[0]);
+		uchar* output = myAlloc.allocate(unitSize * dimCount[0]);
 		for (long i = 0; i < unitSize * dimCount[0]; ++i)
 		{
-			Get8(output + i);
+			Get8(reinterpret_cast<char *>(output + i));
 		}
 		currItem = dimCount[0];
-		return std::unique_ptr<char>(output);
+		return std::unique_ptr<uchar>(output);
 	}
 
 	return nullptr;

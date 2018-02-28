@@ -11,6 +11,13 @@
 
 class MNISTLoader
 {
+    
+public:
+    
+    using uchar = unsigned char;
+    
+private:
+    
 	std::ifstream ifs;
 	std::vector<int> dimCount;
 
@@ -26,7 +33,7 @@ public:
 	MNISTLoader(std::string filePath);
 
 	std::unique_ptr<char> FetchItem();
-	std::unique_ptr<char> FetchAll();
+	std::unique_ptr<uchar> FetchAll();
 
 	bool is_done() const;
 	long get_unit_size() const;

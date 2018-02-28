@@ -11,26 +11,26 @@ SmartMatrix::SmartMatrix(UINT m, UINT n, bool zeroed)
 {
         Randomize<> r;
         
-	auto lambda = [&r](UINT a, UINT b)->double { return r.GetReal(); };
-        auto zlambda = [&r](UINT a, UINT b)->double { return 0.0; };
+	auto lambda = [&r](UINT a, UINT b)->Real { return r.GetReal(); };
+        auto zlambda = [&r](UINT a, UINT b)->Real { return 0.0; };
         
 	if (zeroed) fill_each(zlambda);
         else fill_each(lambda);
 }
         
-SmartMatrix::SmartMatrix(double val, unsigned int n)
+SmartMatrix::SmartMatrix(Real val, unsigned int n)
     :   N{ n }, M{ 1 }, dataset{ std::make_unique<std::vector<Row>>() }
 {
-        dataset->push_back( std::make_unique<std::vector<double>>( n, val ));
+        dataset->push_back( std::make_unique<std::vector<Real>>( n, val ));
 }
     
-    SmartMatrix::SmartMatrix(double* data, unsigned int m, unsigned int n)
+    SmartMatrix::SmartMatrix(Real* data, unsigned int m, unsigned int n)
     {}
     
-SmartMatrix::SmartMatrix(unsigned int m, double val)
+SmartMatrix::SmartMatrix(unsigned int m, Real val)
     :   N{ 1 }, M{ m }, dataset{ std::make_unique<std::vector<Row>>() }
 {
-        for (int i{ 0 }; i++ < m;) dataset->push_back( std::make_unique<std::vector<double>>( 1, val ));
+        for (int i{ 0 }; i++ < m;) dataset->push_back( std::make_unique<std::vector<Real>>( 1, val ));
 }
 
 SmartMatrix::SmartMatrix(Row r)
@@ -212,14 +212,14 @@ XMatrix SmartMatrix::operator *(const Matrix& other) const
     return output;
 }
 
-SmartMatrix& SmartMatrix::operator *=(const double g)
+SmartMatrix& SmartMatrix::operator *=(const Real g)
 {
-    auto lambda = [g](double& a) { a *= g; };
+    auto lambda = [g](Real& a) { a *= g; };
     for_each(lambda);
     return *this;
 }
 
-XMatrix SmartMatrix::operator^(std::function<double(double)> f) const
+XMatrix SmartMatrix::operator^(std::function<Real(Real)> f) const
 {
 	XMatrix output = std::make_unique<Matrix>(*this);
 	*output ^= f;
@@ -280,28 +280,28 @@ XMatrix SmartMatrix::operator &(XMatrix other) const
 
 SmartMatrix& SmartMatrix::operator +=(const Matrix& other)
 {
-    auto lambda = [](double& a, double b) { a += b; };
+    auto lambda = [](Real& a, Real b) { a += b; };
     for_each(lambda, other);
     return *this;
 }
 
 SmartMatrix& SmartMatrix::operator -=(const Matrix& other)
 {
-    auto lambda = [](double& a, double b) { a -= b; };
+    auto lambda = [](Real& a, Real b) { a -= b; };
     for_each(lambda, other);
     return *this;
 }
 
 SmartMatrix& SmartMatrix::operator &=(const Matrix& other)
 {
-	auto lambda = [](double& a, double b) { a *= b; };
+	auto lambda = [](Real& a, Real b) { a *= b; };
 	for_each(lambda, other);
 	return *this;
 }
 
-SmartMatrix& SmartMatrix::operator ^=(std::function<double(double)> f)
+SmartMatrix& SmartMatrix::operator ^=(std::function<Real(Real)> f)
 {
-	auto lambda = [&f](double& a) { a = f(a); };
+	auto lambda = [&f](Real& a) { a = f(a); };
 	for_each(lambda);
 	return *this;
 }
@@ -357,11 +357,11 @@ void SmartMatrix::concatenate(XMatrix other)
         }
 }
 
-void SmartMatrix::addRow(const std::vector<double>& v)
+void SmartMatrix::addRow(const std::vector<Real>& v)
 {
 	if (v.size() == get_n())
 	{
-		Row copy = std::make_unique<std::vector<double>>();
+		Row copy = std::make_unique<std::vector<Real>>();
 		std::copy(v.begin(), v.end(), std::back_inserter(*copy));
 		(*this).dataset->push_back(std::move(copy));
 
@@ -374,7 +374,7 @@ void SmartMatrix::addRow(const std::vector<double>& v)
         }
 }
 
-const std::vector<double>& SmartMatrix::extractRow(UINT j) const
+const std::vector<Real>& SmartMatrix::extractRow(UINT j) const
 {
 	return *( ( *this->dataset )[j].get() );
 }
@@ -394,9 +394,9 @@ std::vector<UINT> SmartMatrix::TopValues()
     {
         int i{ 0 };
         int fIndex{ -1 };
-        double highest = -1.0f;
+        Real highest = -1.0f;
         
-        for (double g : *r)
+        for (Real g : *r)
         {
             if (g > highest) {
                 fIndex = i;
@@ -434,19 +434,19 @@ void SmartMatrix::deep_cpy(const Matrix& other)
         //std::cout << "WARNING! deep copy" << std::endl;
 	for (auto& r : *other.dataset)
 	{
-		Row copy = std::make_unique<std::vector<double>>();
+		Row copy = std::make_unique<std::vector<Real>>();
 		std::copy(r->begin(), r->end(), std::back_inserter(*copy));
 		(*this).dataset->push_back(std::move(copy));
 	}
 }
 
-void SmartMatrix::fill_each(std::function<double(UINT, UINT)> f)
+void SmartMatrix::fill_each(std::function<Real(UINT, UINT)> f)
 {
 	if (dataset->empty())
 	{
 		for (UINT i{ 0 }; i < M; ++i)
 		{
-			Row r = std::make_unique<std::vector<double>>();
+			Row r = std::make_unique<std::vector<Real>>();
 			for (UINT j{ 0 }; j < N; ++j)
 			{
 				(*r).push_back(f(i, j));
@@ -456,13 +456,13 @@ void SmartMatrix::fill_each(std::function<double(UINT, UINT)> f)
 	}
 }
 
-void SmartMatrix::fill_each(std::function<double()> f, int a)
+void SmartMatrix::fill_each(std::function<Real()> f, int a)
 {
 	if (dataset->empty())
 	{
 		for (UINT i{ 0 }; i < M; ++i)
 		{
-			Row r = std::make_unique<std::vector<double>>();
+			Row r = std::make_unique<std::vector<Real>>();
 			for (UINT j{ 0 }; j < N; ++j)
 			{
 				(*r).push_back(f());
@@ -472,7 +472,7 @@ void SmartMatrix::fill_each(std::function<double()> f, int a)
 	}
 }
 
-void SmartMatrix::for_each(std::function<void(double&, double)> f, const Matrix& other)
+void SmartMatrix::for_each(std::function<void(Real&, Real)> f, const Matrix& other)
 {
     if (this->M == other.M && this->N == other.N)
     {
@@ -493,7 +493,7 @@ void SmartMatrix::for_each(std::function<void(double&, double)> f, const Matrix&
     }
 }
 
-void SmartMatrix::for_each(std::function<void(double&)> f)
+void SmartMatrix::for_each(std::function<void(Real&)> f)
 {
     for (UINT i{ 0 }; i < get_m(); ++i) 
     {
@@ -506,12 +506,12 @@ void SmartMatrix::for_each(std::function<void(double&)> f)
 }
 
 
-double& SmartMatrix::at(UINT i, UINT j) 
+Real& SmartMatrix::at(UINT i, UINT j) 
 {
     return !transposition_flag ? (*(( *dataset )[i]))[j] : (*(( *dataset )[j]))[i];
 }
 
-double SmartMatrix::take(UINT i, UINT j) const
+Real SmartMatrix::take(UINT i, UINT j) const
 {
     return !transposition_flag ? (*(( *dataset )[i]))[j] : (*(( *dataset )[j]))[i];
 }
@@ -560,13 +560,13 @@ XMatrix operator&(XMatrix xm, const SmartMatrix& sm)
 	return xm;
 }
 
-XMatrix operator^(XMatrix xm, std::function<double(double)> f)
+XMatrix operator^(XMatrix xm, std::function<Real(Real)> f)
 {
 	*xm ^= f;
 	return xm;
 }
 
-XMatrix operator*(XMatrix xm, const double g)
+XMatrix operator*(XMatrix xm, const Real g)
 {
     *xm *= g;
     return xm;

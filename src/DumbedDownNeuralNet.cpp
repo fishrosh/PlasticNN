@@ -10,6 +10,7 @@
 #include "NeuralNet.h"
 #include "MNIST.h"
 #include "Dumbed.h"
+#include "ImageProcessor.h"
 
 #define LINUX_PLATFORM
 
@@ -32,82 +33,6 @@ struct CorectnessRate
 		}
 	}
 };
-
-class IntegerGenie
-{
-	std::random_device rd;
-	std::mt19937 genie;
-
-public:
-
-	IntegerGenie();
-
-	int FetchInteger(int limit);
-};
-
-IntegerGenie::IntegerGenie()
-	: rd{}, genie{ rd() }
-{}
-
-int IntegerGenie::FetchInteger(int limit) 
-{
-    std::uniform_int_distribution<> distro{ 0, limit };
-    return distro(genie);
-}
-
-class LogicGateTest
-{
-	bool a, b, c, d;
-
-	std::random_device rd;
-	std::mt19937 genie;
-	std::uniform_int_distribution<> distro;
-
-public:
-
-	LogicGateTest();
-
-	void randomize();
-
-	std::vector<double> GenerateInputVector();
-	std::vector<double> GenerateOutputVector();
-
-	int value();
-};
-
-int LogicGateTest::value() {
-	return  !(a&&b) && (c || !d) ? 0 : 1;
-	//return a && b || c;
-	//return 0;
-}
-
-LogicGateTest::LogicGateTest()
-	: rd{}, genie{ rd() }, distro(0, 1)
-{
-	randomize();
-}
-
-void LogicGateTest::randomize()
-{
-	a = distro(genie);
-	b = distro(genie);
-	c = distro(genie);
-	d = distro(genie);
-}
-
-std::vector<double> LogicGateTest::GenerateInputVector()
-{
-	return std::vector<double>{ static_cast<double>(a), 
-		static_cast<double>(b), 
-		static_cast<double>(c), 
-		static_cast<double>(d) };
-}
-
-std::vector<double> LogicGateTest::GenerateOutputVector()
-{
-	bool result = !(a&&b)&&(c || !d);
-	return{ static_cast<double>(result), static_cast<double>(!result) };
-}
 
 std::ostream& operator<<(std::ostream& out, const NeuralNet& nn)
 {
@@ -188,6 +113,19 @@ void MakeInputVector(std::vector<double>& output, std::unique_ptr<char>& input, 
 	MakeInputVector(output, input, count, 0);
 }
 
+template <class input_t = unsigned char, class output_t = double>
+void MakeResultVectorK(std::vector<output_t>& output, input_t input)
+{
+	for (input_t c = 0; c < 10; ++c)
+	{
+		if (c == input) {
+                    output.push_back(1.0);
+                }
+                
+		else output.push_back(0.0);
+	}
+}
+
 void MakeResultVector(std::vector<double>& output, char input)
 {
 	for (double c = 0; c < 10; ++c)
@@ -216,13 +154,16 @@ void MNISTStochasticRun()
 	std::vector<double> results;
 
 	CorectnessRate cr;
-	IntegerGenie ig;
+        Randomize<> rand;
+        
+        ImageProcessor<> imgProc;
+        imgProc.inMax = std::numeric_limits<unsigned char>::max();
 
 	NeuralNet network{ inputXSize * inputYSize,{ 15, 10 } };
 	//NeuralNet network{ "logs/epoch_6_wbs" };
 
-	std::unique_ptr<char> images_ptr = images.FetchAll();
-	std::unique_ptr<char> labels_ptr = labels.FetchAll();
+	std::unique_ptr<unsigned char> images_ptr = images.FetchAll();
+	std::unique_ptr<unsigned char> labels_ptr = labels.FetchAll();
 
 	std::cout << "Dataset is here." << std::endl;
 
@@ -263,7 +204,9 @@ void MNISTStochasticRun()
 
 			for (int j{ 0 }; j < stochasticSetSize && useCount < images.get_set_size(); ++j)
 			{
-				long offset = ig.FetchInteger(images.get_set_size() - useCount - 1);
+                            rand.SetRangeInt(0, images.get_set_size() - useCount - 1);
+                            
+                                long offset = rand.GetInt();
 				long fOffset = 0;
 				long index = 0;
 
@@ -276,8 +219,11 @@ void MNISTStochasticRun()
 				uses[index] = true;
 				useCount++;
 
-				MakeInputVector(input, images_ptr, 784, index * images.get_unit_size());
-				MakeResultVector(results, *(labels_ptr.get() + index * labels.get_unit_size()));
+				//MakeInputVector(input, images_ptr, 784, index * images.get_unit_size());
+				//MakeResultVector(results, *(labels_ptr.get() + index * labels.get_unit_size()));
+                                
+                                imgProc.MakeInputVectorUNP(input, images_ptr, index * images.get_unit_size());
+				MakeResultVectorK<>(results, *(labels_ptr.get() + index * labels.get_unit_size()));
                                 
                                 in.addRow(input);
                                 out.addRow(results);

@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/DumbedDownNeuralNet.o \
 	${OBJECTDIR}/src/FileLoader.o \
 	${OBJECTDIR}/src/Layer.o \
+	${OBJECTDIR}/src/LogicGateEval.o \
 	${OBJECTDIR}/src/MNIST.o \
 	${OBJECTDIR}/src/NeuralNet.o \
 	${OBJECTDIR}/src/Randomize.o \
@@ -83,6 +84,11 @@ ${OBJECTDIR}/src/Layer.o: src/Layer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Layer.o src/Layer.cpp
+
+${OBJECTDIR}/src/LogicGateEval.o: src/LogicGateEval.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/LogicGateEval.o src/LogicGateEval.cpp
 
 ${OBJECTDIR}/src/MNIST.o: src/MNIST.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src

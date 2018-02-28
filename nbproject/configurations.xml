@@ -6,7 +6,9 @@
                    projectFiles="true">
       <itemPath>src/Dumbed.h</itemPath>
       <itemPath>src/FileLoader.h</itemPath>
+      <itemPath>src/ImageProcessor.h</itemPath>
       <itemPath>src/Layer.h</itemPath>
+      <itemPath>src/LogicGateEval.h</itemPath>
       <itemPath>src/MNIST.h</itemPath>
       <itemPath>src/NeuralNet.h</itemPath>
       <itemPath>src/Randomize.h</itemPath>
@@ -22,6 +24,7 @@
       <logicalFolder name="f1" displayName="Libs" projectFiles="true">
         <itemPath>src/FileLoader.cpp</itemPath>
         <itemPath>src/Layer.cpp</itemPath>
+        <itemPath>src/LogicGateEval.cpp</itemPath>
         <itemPath>src/MNIST.cpp</itemPath>
         <itemPath>src/NeuralNet.cpp</itemPath>
         <itemPath>src/Randomize.cpp</itemPath>
@@ -64,9 +67,15 @@
       </item>
       <item path="src/FileLoader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Layer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/LogicGateEval.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/LogicGateEval.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/MNIST.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -116,9 +125,15 @@
       </item>
       <item path="src/FileLoader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Layer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/LogicGateEval.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/LogicGateEval.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/MNIST.cpp" ex="false" tool="1" flavor2="0">
       </item>

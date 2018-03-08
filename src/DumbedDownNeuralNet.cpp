@@ -147,7 +147,7 @@ void MNISTStochasticRun()
 	MNISTLoader labels("/home/kamil/train-labels.idx1-ubyte");
 #endif // !LINUX_PLATFORM
 
-	if (images.get_set_size() != labels.get_set_size())
+	if (images.GetSetSize() != labels.GetSetSize())
 		throw "Sizes do not match";
 
 	std::vector<double> input;
@@ -167,7 +167,7 @@ void MNISTStochasticRun()
 
 	std::cout << "Dataset is here." << std::endl;
 
-	std::vector<bool> uses( images.get_set_size(), false );
+	std::vector<bool> uses( images.GetSetSize(), false );
 
 	const long stochasticSetSize = 10;
 
@@ -190,7 +190,7 @@ void MNISTStochasticRun()
 		std::cout << ":::::::::::: EPOCH " << epoch << " :::::::::::::" << std::endl;
                 
 
-		while (useCount < images.get_set_size())
+		while (useCount < images.GetSetSize())
 		{
 			network.ResetLayers();
 
@@ -202,9 +202,9 @@ void MNISTStochasticRun()
                         
                         std::vector<UINT> iko;
 
-			for (int j{ 0 }; j < stochasticSetSize && useCount < images.get_set_size(); ++j)
+			for (int j{ 0 }; j < stochasticSetSize && useCount < images.GetSetSize(); ++j)
 			{
-                            rand.SetRangeInt(0, images.get_set_size() - useCount - 1);
+                            rand.SetRangeInt(0, images.GetSetSize() - useCount - 1);
                             
                                 long offset = rand.GetInt();
 				long fOffset = 0;
@@ -219,21 +219,21 @@ void MNISTStochasticRun()
 				uses[index] = true;
 				useCount++;
 
-				//MakeInputVector(input, images_ptr, 784, index * images.get_unit_size());
-				//MakeResultVector(results, *(labels_ptr.get() + index * labels.get_unit_size()));
+				//MakeInputVector(input, images_ptr, 784, index * images.GetUnitSize());
+				//MakeResultVector(results, *(labels_ptr.get() + index * labels.GetUnitSize()));
                                 
-                                imgProc.MakeInputVectorUNP(input, images_ptr, index * images.get_unit_size());
-				MakeResultVectorK<>(results, *(labels_ptr.get() + index * labels.get_unit_size()));
+                                imgProc.MakeInputVectorUNP(input, images_ptr, index * images.GetUnitSize());
+				MakeResultVectorK<>(results, *(labels_ptr.get() + index * labels.GetUnitSize()));
                                 
                                 in.addRow(input);
                                 out.addRow(results);
 
 
-                                iko.push_back((int)(unsigned char)(*(labels_ptr.get() + index * labels.get_unit_size())));
+                                iko.push_back((int)(unsigned char)(*(labels_ptr.get() + index * labels.GetUnitSize())));
 				/*std::cout << network.HighestActivationValue(j) << " ";
 				ofs << network.HighestActivationValue(j) << " ";
 
-				if (network.HighestActivationValue(j) == (int)(unsigned char)(*(labels_ptr.get() + index * labels.get_unit_size())))
+				if (network.HighestActivationValue(j) == (int)(unsigned char)(*(labels_ptr.get() + index * labels.GetUnitSize())))
 					cr.add(1);
 				else cr.add(0);//*/
 
@@ -264,7 +264,7 @@ void MNISTStochasticRun()
 		ni *= 0.98;
 
 		uses.clear();
-		uses.insert(uses.end(), images.get_set_size(), false);
+		uses.insert(uses.end(), images.GetSetSize(), false);
 	}
 	
 	network.saveToFile("maximized_wbs");

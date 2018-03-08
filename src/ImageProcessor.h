@@ -74,7 +74,7 @@ void ImageProcessor<input_t, output_t>::MakeInputVector(std::vector<output_t>& o
             if (i >= offsetX && i < offsetX + midSizeX &&
                     j >= offsetY && j < offsetY + midSizeY ) 
             {
-                o = ReadInputImage(input, (i - offsetX), (j - offsetY), offset);
+                o = ReadInputImage(input, (i - offsetX), (j - offsetY), offset * inSizeX * inSizeY);
             }
             
             else {
@@ -86,14 +86,12 @@ void ImageProcessor<input_t, output_t>::MakeInputVector(std::vector<output_t>& o
     }
 }
 
-// !!!!!!!!!!!!!!
-// CHANGE MNISTLOADER to unsigned char
 template <class input_t, class output_t>
 void ImageProcessor<input_t, output_t>::MakeInputVectorUNP(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset)
 {
 	for (UINT i = 0; i < inSizeX * inSizeY; ++i)
 	{
-		double o = static_cast<output_t>(*(input.get() + i + offset)) / inMax;
+		double o = static_cast<output_t>(*(input.get() + i + offset * inSizeX * inSizeY)) / inMax;
 		output.push_back(o);
 	}
 }

@@ -9,7 +9,9 @@
 #include <memory>
 #include <vector>
 
-class MNISTLoader
+#include "DatasetLoader.h"
+
+class MNISTLoader : public DatasetLoader<unsigned char>
 {
     
 public:
@@ -32,10 +34,11 @@ public:
 
 	MNISTLoader(std::string filePath);
 
-	std::unique_ptr<char> FetchItem();
-	std::unique_ptr<uchar> FetchAll();
+	std::unique_ptr<uchar> FetchItem() override;
+	std::unique_ptr<uchar> FetchAll() override;
+        
+	long GetUnitSize() const override;
+	long GetSetSize() const override;
 
 	bool is_done() const;
-	long get_unit_size() const;
-	long get_set_size() const;
 };

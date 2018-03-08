@@ -10,6 +10,7 @@
  *
  * Created on February 25, 2018, 1:27 PM
  */
+#pragma once
 
 #ifndef RANDOMIZE_H
 #define RANDOMIZE_H

@@ -60,19 +60,19 @@ MNISTLoader::MNISTLoader(std::string filePath)
         }
 }
 
-std::unique_ptr<char> MNISTLoader::FetchItem()
+std::unique_ptr<MNISTLoader::uchar> MNISTLoader::FetchItem()
 {
 	if (currItem < dimCount[0])
 	{
-		std::allocator<char> myAlloc;
-		long unitSize = get_unit_size();
-		char* output = myAlloc.allocate(unitSize);
+		std::allocator<uchar> myAlloc;
+		long unitSize = GetUnitSize();
+		uchar* output = myAlloc.allocate(unitSize);
 		for (int i = 0; i < unitSize; ++i)
 		{
-			Get8(output + i);
+			Get8(reinterpret_cast<char *>(output + i));
 		}
 		currItem++;
-		return std::unique_ptr<char>(output);
+		return std::unique_ptr<uchar>(output);
 	}
 	return nullptr;
 }
@@ -82,11 +82,16 @@ std::unique_ptr<MNISTLoader::uchar> MNISTLoader::FetchAll()
 	if (currItem == 0)
 	{
 		std::allocator<uchar> myAlloc;
-		long unitSize = get_unit_size();
+		long unitSize = GetUnitSize();
 		uchar* output = myAlloc.allocate(unitSize * dimCount[0]);
 		for (long i = 0; i < unitSize * dimCount[0]; ++i)
 		{
 			Get8(reinterpret_cast<char *>(output + i));
+                        if (i < 10000) {
+                            if ((int)*(output + i)<122) std::cout << 0;
+                            else std::cout << 1;
+                            if (i%28==0) std::cout << std::endl;
+                        }
 		}
 		currItem = dimCount[0];
 		return std::unique_ptr<uchar>(output);
@@ -101,7 +106,7 @@ bool MNISTLoader::is_done() const
 	else return false;
 }
 
-long MNISTLoader::get_unit_size() const
+long MNISTLoader::GetUnitSize() const
 {
 	long unitSize = 1;
 	for (int i = 1; i < dimCount.size(); ++i)
@@ -111,7 +116,7 @@ long MNISTLoader::get_unit_size() const
 	return unitSize;
 }
 
-long MNISTLoader::get_set_size() const
+long MNISTLoader::GetSetSize() const
 {
 	return dimCount[0];
 }

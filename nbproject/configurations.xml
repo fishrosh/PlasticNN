@@ -4,15 +4,21 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>src/DatasetLoader.h</itemPath>
+      <itemPath>src/DatasetManager.h</itemPath>
       <itemPath>src/Dumbed.h</itemPath>
+      <itemPath>src/ErrorMeasure.h</itemPath>
       <itemPath>src/FileLoader.h</itemPath>
+      <itemPath>src/ITeachable.h</itemPath>
       <itemPath>src/ImageProcessor.h</itemPath>
       <itemPath>src/Layer.h</itemPath>
+      <itemPath>src/Log.h</itemPath>
       <itemPath>src/LogicGateEval.h</itemPath>
       <itemPath>src/MNIST.h</itemPath>
       <itemPath>src/NeuralNet.h</itemPath>
       <itemPath>src/Randomize.h</itemPath>
       <itemPath>src/SmartMatrix.h</itemPath>
+      <itemPath>src/Tutor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -59,19 +65,29 @@
           <commandLine>-pthread</commandLine>
         </ccTool>
       </compileType>
+      <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Dumbed.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DumbedDownNeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="src/ErrorMeasure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/FileLoader.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/FileLoader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ITeachable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Layer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Log.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/LogicGateEval.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -92,6 +108,8 @@
       <item path="src/SmartMatrix.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/SmartMatrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tutor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -117,19 +135,29 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Dumbed.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DumbedDownNeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="src/ErrorMeasure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/FileLoader.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/FileLoader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ITeachable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Layer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Log.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/LogicGateEval.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -150,6 +178,8 @@
       <item path="src/SmartMatrix.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/SmartMatrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tutor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -4,13 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="DataProcessors" projectFiles="true">
+        <itemPath>src/DataProcessor.h</itemPath>
+        <itemPath>src/ImageProcessor.h</itemPath>
+        <itemPath>src/ImgIdentity.h</itemPath>
+        <itemPath>src/LabelProcessor.h</itemPath>
+      </logicalFolder>
       <itemPath>src/DatasetLoader.h</itemPath>
       <itemPath>src/DatasetManager.h</itemPath>
       <itemPath>src/Dumbed.h</itemPath>
       <itemPath>src/ErrorMeasure.h</itemPath>
       <itemPath>src/FileLoader.h</itemPath>
       <itemPath>src/ITeachable.h</itemPath>
-      <itemPath>src/ImageProcessor.h</itemPath>
       <itemPath>src/Layer.h</itemPath>
       <itemPath>src/Log.h</itemPath>
       <itemPath>src/LogicGateEval.h</itemPath>
@@ -65,6 +70,8 @@
           <commandLine>-pthread</commandLine>
         </ccTool>
       </compileType>
+      <item path="src/DataProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
@@ -82,6 +89,10 @@
       <item path="src/ITeachable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ImgIdentity.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/LabelProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -135,6 +146,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="src/DataProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
@@ -152,6 +165,10 @@
       <item path="src/ITeachable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/ImgIdentity.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/LabelProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
       </item>

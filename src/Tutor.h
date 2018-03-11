@@ -16,12 +16,14 @@
 
 #include <sstream>
 #include <fstream>
+#include <string>
 
 #include "ITeachable.h"
 #include "DatasetManager.h"
 #include "SmartMatrix.h"
 #include "ErrorMeasure.h"
 #include "NeuralNet.h"
+#include "Log.h"
 
 template <class Real = double, class input_t = unsigned char>
 class Tutor {
@@ -56,25 +58,22 @@ void Tutor <Real, input_t>::SDG(ITeachable<Real, input_t>& student, DatasetManag
 	NeuralNet network{ inputXSize * inputYSize,{ 15, 10 } };
 	//NeuralNet network{ "logs/epoch_6_wbs" };
 
-	std::cout << "Dataset is here." << std::endl;
+	Log::ln("Dataset is here.");
 
 	const long batch_size = 10;
 
 	long epoch = 0;
 	double ni = 0.3;
-
-	std::ofstream ofs{ "Log", std::ios::out };
 	while (error < 0.995)
 	{
 		std::ostringstream oss;
 		oss << "logs/ohitssobig_" << epoch << "_wbsab";
-		
 		network.saveToFile(oss.str());
+                
 		long i = 0;
 		++epoch;
-
-		ofs << ":::::::::::: EPOCH " << epoch << " :::::::::::::" << std::endl;
-		std::cout << ":::::::::::: EPOCH " << epoch << " :::::::::::::" << std::endl;
+                
+                Log::ln (":::::::::::: EPOCH " + std::to_string(epoch) + " :::::::::::::");
                 
                 Matrix in{ inputXSize * inputYSize };
                 Matrix out{ 10 };
@@ -87,7 +86,7 @@ void Tutor <Real, input_t>::SDG(ITeachable<Real, input_t>& student, DatasetManag
                     in.addRow(s.input);
                     out.addRow(result);
                     
-                    iko.push_back(5);
+                    iko.push_back(s.result);
                     
                     if (in.M == batch_size) {
                         
@@ -99,12 +98,11 @@ void Tutor <Real, input_t>::SDG(ITeachable<Real, input_t>& student, DatasetManag
                         in.reset();
                         out.reset();
                         
-                        ofs << "{ " << epoch << " } " << "Batch :: " << i << " :: ";
-			std::cout << "{ " << epoch << " } " << "Batch :: " << i << " :: ";
+                        Log::i("{ " + std::to_string(epoch) + " } " + "Batch :: " + std::to_string(epoch) + " :: ");
                         
                         std::vector<UINT> uko = network.TopValues();
                         for(int i{ 0 }; i < uko.size(); i++) {
-                            std::cout << uko[i] << " ";
+                            Log::i(std::to_string(uko[i]) + " ");
                             if (uko[i] == iko[i])
                                 error.AddSuccess();
                             else error.AddFailure();
@@ -112,8 +110,7 @@ void Tutor <Real, input_t>::SDG(ITeachable<Real, input_t>& student, DatasetManag
                         
                         iko.clear();
 
-			std::cout << " :: CR :: " << error.GetHitRate() << std::endl;
-			ofs << " :: CR :: " << error.GetHitRate() << std::endl;
+                        Log::ln(" :: CR :: " + std::to_string(error.GetHitRate()));
 
 			++i;
                     }

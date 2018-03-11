@@ -138,6 +138,7 @@ void MakeResultVector(std::vector<double>& output, char input)
 
 void MNISTStochasticRun()
 {
+        std::cout << "Heya heyo!" << std::endl;
 
 #ifndef LINUX_PLATFORM
 	MNISTLoader images("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-images.idx3-ubyte");

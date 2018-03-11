@@ -87,11 +87,6 @@ std::unique_ptr<MNISTLoader::uchar> MNISTLoader::FetchAll()
 		for (long i = 0; i < unitSize * dimCount[0]; ++i)
 		{
 			Get8(reinterpret_cast<char *>(output + i));
-                        if (i < 10000) {
-                            if ((int)*(output + i)<122) std::cout << 0;
-                            else std::cout << 1;
-                            if (i%28==0) std::cout << std::endl;
-                        }
 		}
 		currItem = dimCount[0];
 		return std::unique_ptr<uchar>(output);

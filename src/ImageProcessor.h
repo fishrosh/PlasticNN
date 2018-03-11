@@ -34,7 +34,7 @@ public:
     UINT inSizeX = 28;
     UINT inSizeY = 28;
     
-    input_t inMax;
+    input_t inMax; // THIS MUST BE FILLED FORCE IT
     input_t inMin;
     
     void MakeInputVector(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset);

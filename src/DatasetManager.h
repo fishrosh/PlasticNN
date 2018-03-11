@@ -18,16 +18,19 @@
 #include <utility>
 #include "DatasetLoader.h"
 #include "ImageProcessor.h"
+#include "DataProcessor.h"
 
 template <class output_t = double, class input_t = unsigned char>
 class DatasetManager {
 public:
         
-    using ImgProc = ImageProcessor <input_t, output_t>;    
+    using DataProc = DataProcessor <output_t, input_t>;  
+    using Loader = DatasetLoader<input_t>; 
     
 private:
         
-    std::shared_ptr<ImgProc> imgProc;
+    std::shared_ptr<DataProcessor<>> imgProc;
+    std::shared_ptr<DataProcessor<>> labelProc;
     
     std::unique_ptr<input_t> images_ptr;
     std::unique_ptr<input_t> labels_ptr;
@@ -37,10 +40,10 @@ private:
  
 public:
     
-    using Loader = DatasetLoader<input_t>;
-    
     void LoadDataset(Loader& images, Loader& labels);
-    void LinkImgProc(std::weak_ptr<ImgProc> _imgProc);
+    
+    void LinkImgProc(std::weak_ptr<DataProc> _imgProc);
+    void LinkLabelProc(std::weak_ptr<DataProc> _labelProc);
     
     struct Sample {
         std::vector<output_t> input;
@@ -119,8 +122,13 @@ void DatasetManager<output_t, input_t>::LoadDataset(Loader& images, Loader& labe
 }
 
 template <class output_t, class input_t>
-void DatasetManager<output_t, input_t>::LinkImgProc(std::weak_ptr<ImgProc> _imgProc) {
+void DatasetManager<output_t, input_t>::LinkImgProc(std::weak_ptr<DataProc> _imgProc) {
     imgProc = _imgProc.lock();
+}
+
+template <class output_t, class input_t>
+void DatasetManager<output_t, input_t>::LinkLabelProc(std::weak_ptr<DataProc> _labelProc) {
+    labelProc = _labelProc.lock();
 }
 
 template <class output_t, class input_t>
@@ -138,8 +146,10 @@ typename DatasetManager<output_t, input_t>::Sample DatasetManager<output_t, inpu
     
     Sample output;
     
-    dataset.imgProc->MakeInputVectorUNP(output.input, dataset.images_ptr, index);
+    dataset.imgProc->operator ()(output.input, dataset.images_ptr, index);
     output.result = *(dataset.labels_ptr.get() + index);
+    
+    // !!!!!!!!!!!!!!!!! it does this every time !!!!!!!! fix that
     
     return output;
 }

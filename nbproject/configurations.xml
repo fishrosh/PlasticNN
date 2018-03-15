@@ -16,6 +16,7 @@
       <itemPath>src/ErrorMeasure.h</itemPath>
       <itemPath>src/FileLoader.h</itemPath>
       <itemPath>src/ITeachable.h</itemPath>
+      <itemPath>src/Interpreter.h</itemPath>
       <itemPath>src/Layer.h</itemPath>
       <itemPath>src/Log.h</itemPath>
       <itemPath>src/LogicGateEval.h</itemPath>
@@ -92,6 +93,8 @@
       </item>
       <item path="src/ImgIdentity.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Interpreter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/LabelProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Layer.cpp" ex="false" tool="1" flavor2="0">
@@ -167,6 +170,8 @@
       <item path="src/ImageProcessor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/ImgIdentity.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Interpreter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/LabelProcessor.h" ex="false" tool="3" flavor2="0">
       </item>

@@ -22,6 +22,7 @@ class DataProcessor {
 public:
     
     virtual void operator()(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset) const = 0;
+    virtual long GetOutputLength () const = 0;
 }; 
 
 #endif /* DATAPROCESSOR_H */

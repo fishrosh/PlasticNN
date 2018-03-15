@@ -26,6 +26,7 @@ public:
     uint inSizeY;
     
     void operator()(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset) const override;
+    long GetOutputLength () const override;
 };
 
 template <class output_t, class input_t>
@@ -35,6 +36,11 @@ void ImgIdentity<output_t, input_t>::operator ()(std::vector<output_t>& output, 
             output_t o = static_cast<output_t>(*(input.get() + i + offset * inSizeX * inSizeY)) / std::numeric_limits<input_t>::max();
             output.push_back(o);
     }
+}
+
+template <class output_t, class input_t>
+long ImgIdentity<output_t, input_t>::GetOutputLength() const {
+    return inSizeX * inSizeY;
 }
 
 #endif /* DP_IDENTITY_H */

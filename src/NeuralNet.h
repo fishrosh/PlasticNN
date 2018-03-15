@@ -25,11 +25,8 @@ public:
 	void Update(const Matrix& input, double ni, UINT num);
 
 	void ResetLayers();
-
-	int HighestActivationValue();
-	int HighestActivationValue(UINT j);
         
-        std::vector<UINT> TopValues() { return NNet.back().TopValues(); }
+        const Matrix& GetNetworkOutput () { return NNet.back().GetLayerActivations (); }
 
 	bool saveToFile(std::string fileName);
 

@@ -15,9 +15,13 @@
 #define ERRORMEASURE_H
 
 #include <queue>
+#include <algorithm>
+#include <iterator>
+#include "SmartMatrix.h"
 
 class ErrorMeasure {
     
+    using Matrix = SmartMatrix;
     using ulong = unsigned long;
     
     ulong sum = 0;
@@ -34,6 +38,8 @@ public:
     void AddSuccess ();
     void AddFailure ();
     
+    void Evaluate (const Matrix& network_output, const Matrix& labels);
+    
     void SetTrialLimit (ulong _limit);
     
     bool operator< (const long double& _other) const;
@@ -45,6 +51,24 @@ public:
 
 long double ErrorMeasure::GetHitRate() const {
     return values.size() != 0 ? sum / static_cast <long double> (values.size()) : 0;
+}
+
+void ErrorMeasure::Evaluate(const Matrix& network_output, const Matrix& labels) {
+    for (ulong i = 0; i < network_output.RowCount (); ++i) {
+        auto& output_row = network_output.extractRow(i);
+        auto& labels_row = labels.extractRow(i);
+        
+        auto out_max = std::max_element (output_row.begin(), output_row.end());
+        auto lab_max = std::max_element (labels_row.begin(), labels_row.end());
+        
+        if (std::distance (output_row.begin(), out_max) == std::distance (labels_row.begin(), lab_max)) {
+            AddSuccess ();
+        }
+        
+        else {
+            AddFailure ();
+        }
+    }
 }
 
 void ErrorMeasure::AddSuccess() {

@@ -35,7 +35,7 @@ public:
 
 	void ResetState();
         
-        std::vector<UINT> TopValues() { return vSigmas.TopValues(); }
+        const Matrix& GetLayerActivations () { return vSigmas; }
 
 	Matrix& Errors();
 	Matrix& Weights();

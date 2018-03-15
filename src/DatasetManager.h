@@ -19,6 +19,7 @@
 #include "DatasetLoader.h"
 #include "ImageProcessor.h"
 #include "DataProcessor.h"
+#include "SmartMatrix.h"
 
 template <class output_t = double, class input_t = unsigned char>
 class DatasetManager {
@@ -26,6 +27,7 @@ public:
         
     using DataProc = DataProcessor <output_t, input_t>;  
     using Loader = DatasetLoader<input_t>; 
+    using ulong = unsigned long;
     
 private:
         
@@ -34,6 +36,11 @@ private:
     
     std::unique_ptr<input_t> images_ptr;
     std::unique_ptr<input_t> labels_ptr;
+    
+    SmartMatrix in {10};
+    SmartMatrix out {10};
+    
+    std::vector<input_t> labels;
     
     long unit_size;
     long set_size;
@@ -45,9 +52,13 @@ public:
     void LinkImgProc(std::weak_ptr<DataProc> _imgProc);
     void LinkLabelProc(std::weak_ptr<DataProc> _labelProc);
     
+    ulong batch_size = 10;
+    
     struct Sample {
-        std::vector<output_t> input;
-        input_t result;
+        SmartMatrix& in;
+        SmartMatrix& out;
+        
+        std::vector<input_t>& labels;
     };
     
     struct DatasetIterator {
@@ -66,9 +77,6 @@ public:
         
         DatasetIterator(DatasetIterator&&);
         DatasetIterator& operator=(DatasetIterator&&);
-        
-        //DatasetIterator operator++(int);
-        //DatasetIterator operator--(int);
         
     private:
         
@@ -124,11 +132,19 @@ void DatasetManager<output_t, input_t>::LoadDataset(Loader& images, Loader& labe
 template <class output_t, class input_t>
 void DatasetManager<output_t, input_t>::LinkImgProc(std::weak_ptr<DataProc> _imgProc) {
     imgProc = _imgProc.lock();
+    
+    if (imgProc) {
+        in = SmartMatrix (imgProc->GetOutputLength());
+    }
 }
 
 template <class output_t, class input_t>
 void DatasetManager<output_t, input_t>::LinkLabelProc(std::weak_ptr<DataProc> _labelProc) {
     labelProc = _labelProc.lock();
+    
+    if (labelProc) {
+        out = SmartMatrix (labelProc->GetOutputLength());
+    }
 }
 
 template <class output_t, class input_t>
@@ -144,40 +160,52 @@ typename DatasetManager<output_t, input_t>::DatasetIterator DatasetManager<outpu
 template <class output_t, class input_t>
 typename DatasetManager<output_t, input_t>::Sample DatasetManager<output_t, input_t>::DatasetIterator::operator *() {
     
-    Sample output;
-    
-    dataset.imgProc->operator ()(output.input, dataset.images_ptr, index);
-    output.result = *(dataset.labels_ptr.get() + index);
-    
-    // !!!!!!!!!!!!!!!!! it does this every time !!!!!!!! fix that
+    Sample output {dataset.in, dataset.out, dataset.labels};
     
     return output;
 }
 
 template <class output_t, class input_t>
 typename DatasetManager<output_t, input_t>::DatasetIterator& DatasetManager<output_t, input_t>::DatasetIterator::operator ++() {
-    if (use_count == dataset.set_size) {
-        return *this;
-    }
+    dataset.in.reset();
+    dataset.out.reset();
+    dataset.labels.clear();
     
-    r->SetRangeInt(0, dataset.set_size - use_count - 1);
-                            
-    long offset = r->GetInt();
-    long fOffset = 0;
-    
-    index = 0;
-
-    while (fOffset != offset)
-    {
-        if (!used_items[index]) {
-            ++fOffset;
+    for (ulong i = 0; i < dataset.batch_size; ++i) {
+        if (use_count == dataset.set_size) {
+            return *this;
         }
         
-        ++index;
-    }
+        std::vector<output_t> imageVec;
+        std::vector<output_t> labelVec;
 
-    used_items[index] = true;
-    ++use_count;
+        r->SetRangeInt(0, dataset.set_size - use_count - 1);
+
+        long offset = r->GetInt();
+        long fOffset = 0;
+
+        index = 0;
+
+        while (fOffset != offset)
+        {
+            if (!used_items[index]) {
+                ++fOffset;
+            }
+
+            ++index;
+        }
+        
+        dataset.imgProc->operator ()(imageVec, dataset.images_ptr, index);
+        dataset.labelProc->operator ()(labelVec, dataset.labels_ptr, index);
+        
+        dataset.in.addRow(imageVec);
+        dataset.out.addRow(labelVec);
+        
+        dataset.labels.push_back(*(dataset.labels_ptr.get() + index));
+
+        used_items[index] = true;
+        ++use_count;
+    }
     
     return *this;
 }

@@ -247,13 +247,13 @@ void MNISTStochasticRun()
                         network.Backpropagate(out);
 			network.Update(in, ni);
                         
-                        std::vector<UINT> uko = network.TopValues();
+                        /*std::vector<UINT> uko = network.TopValues();
                         for(int i{ 0 }; i < uko.size(); i++) {
                             std::cout << uko[i] << " ";
                             if (uko[i] == iko[i])
                                 cr.add(1);
                             else cr.add(0);
-                        }
+                        }*/
 
 			std::cout << " :: CR :: " << cr.ratio() << std::endl;
 			ofs << " :: CR :: " << cr.ratio() << std::endl;

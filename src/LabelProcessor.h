@@ -21,11 +21,12 @@ public:
     using uint = unsigned int;
     
     void operator()(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset) const override;
+    long GetOutputLength () const override;
 };
 
 template <class output_t, class input_t>
 void LabelProcessor<output_t, input_t>::operator ()(std::vector<output_t>& output, std::unique_ptr<input_t>& input, long offset) const {
-    input_t label = (*(input.get() + offset)) / std::numeric_limits<input_t>::max();
+    input_t label = (*(input.get() + offset));
     
     // !!!!!!!!!!! work on it
     for (input_t c = 0; c < 10; ++c)
@@ -36,6 +37,11 @@ void LabelProcessor<output_t, input_t>::operator ()(std::vector<output_t>& outpu
                 
 		else output.push_back(0.0);
 	}
+}
+
+template <class output_t, class input_t>
+long LabelProcessor<output_t, input_t>::GetOutputLength() const {
+    return 10;
 }
 
 #endif /* LABELPROCESSOR_H */

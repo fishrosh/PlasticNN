@@ -22,6 +22,8 @@ public:
     using Row = std::unique_ptr<std::vector<Real>>;
     using DataSet = std::unique_ptr<std::vector<Row>>;
     using Matrix = SmartMatrix;
+    
+    using ulong = unsigned long;
 
 private:
 
@@ -81,8 +83,6 @@ public:
 
 	const std::vector<Real>& extractRow(UINT rNum) const;
 	Matrix matrixFromRow(UINT rNum);
-        
-        std::vector<UINT> TopValues();
 	// eotbr
 
 	std::ostream& Out(std::ostream& out) const;
@@ -92,6 +92,8 @@ public:
 	~SmartMatrix();
         
     Real& at(UINT i, UINT j);
+    ulong RowCount () const { return M; };
+    ulong RowLength () const;
 
 	// helpers
 private:

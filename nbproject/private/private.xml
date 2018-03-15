@@ -7,12 +7,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/DatasetManager.h</file>
             <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/SmartMatrix.h</file>
-            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/Dumbed.h</file>
+            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/Tutor.h</file>
+            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/NeuralNet.h</file>
             <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/SmartMatrix.cpp</file>
-            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/ImageProcessor.h</file>
             <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/main.cpp</file>
-            <file>file:/home/kamil/NetBeansProjects/PlasticNN/src/DumbedDownNeuralNet.cpp</file>
         </group>
     </open-files>
 </project-private>

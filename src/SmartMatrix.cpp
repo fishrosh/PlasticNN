@@ -386,32 +386,6 @@ SmartMatrix SmartMatrix::matrixFromRow(UINT j)
 	return output;
 }
 
-std::vector<UINT> SmartMatrix::TopValues()
-{
-    std::vector<UINT> output;
-    
-    for (auto& r : *this->dataset)
-    {
-        int i{ 0 };
-        int fIndex{ -1 };
-        Real highest = -1.0f;
-        
-        for (Real g : *r)
-        {
-            if (g > highest) {
-                fIndex = i;
-                highest = g;
-                
-            }
-            i++;
-        }
-        
-        output.push_back(fIndex);
-    }
-    
-    return output;
-}
-
 void SmartMatrix::reset()
 {
 	dataset->clear();

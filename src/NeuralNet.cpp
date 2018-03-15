@@ -1,47 +1,6 @@
 #include "NeuralNet.h"
 #include "FileLoader.h"
 
-int NeuralNet::HighestActivationValue()
-{
-	int highest = -1;
-	double top = 0.0;
-
-	for (int m = 0; m < NNet.back().Sigmas().M; ++m)
-	{
-		for (int n = 0; n < NNet.back().Sigmas().N; ++n)
-		{
-			if (NNet.back().Sigmas().take(m, n) > top)
-			{
-				highest = n;
-				top = NNet.back().Sigmas().take(m, n);
-			}
-		}
-	}
-
-	return highest;
-}
-
-int NeuralNet::HighestActivationValue(UINT j)
-{
-	int highest = -1;
-	double top = 0.0;
-
-	Matrix x = NNet.back().Sigmas(j);
-	for (int m = 0; m < x.M; ++m)
-	{
-		for (int n = 0; n < x.N; ++n)
-		{
-			if (x.take(m, n) > top)
-			{
-				highest = n;
-				top = x.take(m, n);
-			}
-		}
-	}
-
-	return highest;
-}
-
 NeuralNet::NeuralNet(UINT input, std::initializer_list<UINT> lrs)
 {
 	UINT sunt = input;

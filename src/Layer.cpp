@@ -32,7 +32,7 @@ Matrix RandomMatrixGenerator::operator()(UINT M, UINT N)
 
 void Layer::FeedFWD(const Matrix& input)
 {
-	vOutput.concatenate(input * mWeights + Matrix{ input.M, 1.0 } * vBiases);
+	vOutput.concatenate(input * mWeights + Matrix{ input.M, 1.0f } * vBiases);
         //std::cout << std::endl << "input" << std::endl << input;
        // std::cout << std::endl << "weights" << std::endl << mWeights;
         //std::cout << std::endl << "output" << std::endl << vOutput;

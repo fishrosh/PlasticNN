@@ -12,7 +12,17 @@
  */
 
 #include <cstdlib>
-#include "Dumbed.h"
+#include <memory>
+#include "Tutor.h"
+#include "ITeachable.h"
+#include "DatasetManager.h"
+#include "MNIST.h"
+#include "Log.h"
+#include "ImgIdentity.h"
+#include "LabelProcessor.h"
+#define LINUX_PLATFORM
+
+extern void MNISTStochasticRun ();
 
 using namespace std;
 
@@ -21,7 +31,35 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
-    MNISTStochasticRun ();
+    Log::BindInstance(std::make_shared<Log> ());
+    
+    Tutor<> tutor;
+    
+    #ifndef LINUX_PLATFORM
+	MNISTLoader images("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-images.idx3-ubyte");
+	MNISTLoader labels("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-labels.idx1-ubyte");
+    #else
+	MNISTLoader images("/home/kamil/train-images.idx3-ubyte");
+	MNISTLoader labels("/home/kamil/train-labels.idx1-ubyte");
+    #endif // !LINUX_PLATFORM
+
+     ITeachable<> teachable;
+     DatasetManager<> dataset;
+     
+     std::shared_ptr<ImgIdentity<>> imgProc = std::make_shared <ImgIdentity<>> ();
+     imgProc->inSizeX = 28;
+     imgProc->inSizeY = 28;
+     dataset.LinkImgProc(imgProc);
+     
+     std::shared_ptr<LabelProcessor<>> labelProc = std::make_shared <LabelProcessor<>> ();
+     dataset.LinkLabelProc(labelProc);
+     //imgProc->inMax = 255;
+     
+     dataset.LoadDataset(images, labels);
+     
+     tutor.SDG(teachable, dataset);//*/
+    
+   // MNISTStochasticRun ();
 
     return 0;
 }

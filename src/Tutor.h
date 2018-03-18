@@ -25,61 +25,48 @@
 #include "NeuralNet.h"
 #include "Log.h"
 #include "Interpreter.h"
+#include "ArtificialIntelligence.h"
+#include "DataTypes.h"
 
 template <class Real = double, class input_t = unsigned char>
 class Tutor {
     
 public:
     
-    void SDG (ITeachable<Real, input_t>&, DatasetManager<Real, input_t>& dataset);
+    void SDG (ArtificialIntelligence<>& ai, DatasetManager<Real, input_t>& dataset);
 };
 
 template <class Real, class input_t>
-void Tutor <Real, input_t>::SDG(ITeachable<Real, input_t>& student, DatasetManager<Real, input_t>& dataset) {
+void Tutor <Real, input_t>::SDG(ArtificialIntelligence<>& ai, DatasetManager<Real, input_t>& dataset) {
 
-    ErrorMeasure error;
-    error.SetTrialLimit(30000);
-
-    UINT inputXSize = 28;
-    UINT inputYSize = 28;
-
-    NeuralNet network{ inputXSize * inputYSize,{ 15, 10 } };
-    //NeuralNet network{ "logs/epoch_6_wbs" };
-
-    long epoch = 0;
-    double ni = 0.3;
-    while (error < 0.995)
+    BatchData bd;
+    
+    ai.OnPreLearning();
+    
+    while (ai.ContinueLearningCondition())
     {
-        std::ostringstream oss;
-        oss << "logs/ohitssobig_" << epoch << "_wbsab";
-        network.saveToFile(oss.str());
+        ++bd.epoch;
+        bd.batch = 0;
         
-        ++epoch;
-
-        Log::ln (":::::::::::: EPOCH " + std::to_string(epoch) + " :::::::::::::");
-        ulong i = 0;
+        ai.OnPreEpoch(bd.epoch);
+        
         for (auto s : dataset) {
-            network.ResetLayers();
-            network.FeedFWD( s.in );
-            network.Backpropagate(s.out);
-            network.Update(s.in, ni);
-
-            Log::i("{ " + std::to_string(epoch) + " } " + "Batch :: " + std::to_string(++i) + " :: ");
+            ++bd.batch;
             
-            error.Evaluate(network.GetNetworkOutput(), s.out);
-            std::vector<uint> results = Interpreter<>::Interpret(network.GetNetworkOutput());
+            ai.OnPreBatch(bd);
             
-            for (const auto& v : results) {
-                Log::i(" " + std::to_string(v));
-            }
-
-            Log::ln(" :: CR :: " + std::to_string(error.GetHitRate()));
+            ai.network->ResetLayers();
+            ai.network->FeedFWD( s.in );
+            ai.network->Backpropagate(s.out);
+            ai.network->Update(s.in, ai.GetLearningRate());
+            
+            ai.OnPostBatch(s.out, bd);
         }
 
-        ni *= 0.98;
+        ai.OnPostEpoch(bd.epoch);
     }
 
-    network.saveToFile("maximized_wbs");
+    ai.OnPostLearning();
 }
 
 #endif /* TUTOR_H */

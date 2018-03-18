@@ -5,16 +5,19 @@
  */
 
 /* 
- * File:   Dumbed.h
+ * File:   DataTypes.h
  * Author: kamil
  *
- * Created on February 25, 2018, 7:50 PM
+ * Created on March 18, 2018, 1:54 PM
  */
 
-#ifndef DUMBED_H
-#define DUMBED_H
+#ifndef DATATYPES_H
+#define DATATYPES_H
 
-void MNISTStochasticRun ();
+struct BatchData {
+    ulong epoch;
+    ulong batch;
+};
 
-#endif /* DUMBED_H */
+#endif /* DATATYPES_H */
 

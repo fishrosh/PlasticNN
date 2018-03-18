@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 class Log {
     
@@ -39,6 +40,11 @@ public:
     
     bool logToFile {true};
     bool logToConsole {true};
+
+protected:
+
+    //virtual void LogToOuput (std::string& str) const;
+    //virtual void LogToFile (std::string& str) const;
 };
 
 std::shared_ptr<Log> Log::current_instance = std::shared_ptr<Log> ();

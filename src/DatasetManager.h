@@ -83,7 +83,7 @@ public:
         DatasetManager& dataset;
         
         long index = 0;
-        long use_count = 0;
+        long unavailable_items = 0;
         
         std::shared_ptr<Randomize<output_t, int>> r;
         std::vector<bool> used_items;
@@ -94,10 +94,10 @@ public:
 };
 
 template <class output_t, class input_t>
-DatasetManager<output_t, input_t>::DatasetIterator::DatasetIterator(long _index, DatasetManager& _dataset)
+DatasetManager<output_t, input_t>::DatasetIterator::DatasetIterator(long _unavailable_items, DatasetManager& _dataset)
     : 
     r {std::make_shared<Randomize<output_t, int>>()},
-    index {_index},
+    unavailable_items {_unavailable_items},
     dataset {_dataset},
     used_items (_dataset.set_size, false)
 {
@@ -107,7 +107,7 @@ template <class output_t, class input_t>
 DatasetManager<output_t, input_t>::DatasetIterator::DatasetIterator(DatasetIterator&& other) 
     : dataset {other.dataset}, 
     index {other.index}, 
-    use_count{other.use_count}, 
+    unavailable_items{other.unavailable_items}, 
     r{other.r},
     used_items {std::move(other.used_items)}
 {
@@ -118,7 +118,6 @@ template <class output_t, class input_t>
 void DatasetManager<output_t, input_t>::LoadDataset(Loader& images, Loader& labels) {
     
     if (images.GetSetSize() != labels.GetSetSize()) {
-        // !!!!!!!!!!!!!!!!!!! give some info on whats is wrong
         return;
     }
     
@@ -149,12 +148,12 @@ void DatasetManager<output_t, input_t>::LinkLabelProc(std::weak_ptr<DataProc> _l
 
 template <class output_t, class input_t>
 typename DatasetManager<output_t, input_t>::DatasetIterator DatasetManager<output_t, input_t>::begin() {
-    return DatasetIterator {0, *this};
+    return std::move(++DatasetIterator {0, *this});
 }
 
 template <class output_t, class input_t>
 typename DatasetManager<output_t, input_t>::DatasetIterator DatasetManager<output_t, input_t>::end() {
-    return DatasetIterator {set_size, *this};
+    return DatasetIterator {set_size + 1, *this};
 }
 
 template <class output_t, class input_t>
@@ -172,14 +171,14 @@ typename DatasetManager<output_t, input_t>::DatasetIterator& DatasetManager<outp
     dataset.labels.clear();
     
     for (ulong i = 0; i < dataset.batch_size; ++i) {
-        if (use_count == dataset.set_size) {
+        if (++unavailable_items > dataset.set_size) {
             return *this;
         }
         
         std::vector<output_t> imageVec;
         std::vector<output_t> labelVec;
 
-        r->SetRangeInt(0, dataset.set_size - use_count - 1);
+        r->SetRangeInt(0, dataset.set_size - unavailable_items);
 
         long offset = r->GetInt();
         long fOffset = 0;
@@ -204,7 +203,6 @@ typename DatasetManager<output_t, input_t>::DatasetIterator& DatasetManager<outp
         dataset.labels.push_back(*(dataset.labels_ptr.get() + index));
 
         used_items[index] = true;
-        ++use_count;
     }
     
     return *this;
@@ -212,12 +210,12 @@ typename DatasetManager<output_t, input_t>::DatasetIterator& DatasetManager<outp
 
 template <class output_t, class input_t>
 bool DatasetManager<output_t, input_t>::DatasetIterator::operator ==(const DatasetIterator& other) const {
-    return this->index == other.index;
+    return this->unavailable_items == other.unavailable_items;
 }
 
 template <class output_t, class input_t>
 bool DatasetManager<output_t, input_t>::DatasetIterator::operator !=(const DatasetIterator& other) const {
-    return this->index != other.index;
+    return this->unavailable_items != other.unavailable_items;
 }
 
 #endif /* DATASETMANAGER_H */

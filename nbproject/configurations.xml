@@ -10,9 +10,10 @@
         <itemPath>src/ImgIdentity.h</itemPath>
         <itemPath>src/LabelProcessor.h</itemPath>
       </logicalFolder>
+      <itemPath>src/ArtificialIntelligence.h</itemPath>
+      <itemPath>src/DataTypes.h</itemPath>
       <itemPath>src/DatasetLoader.h</itemPath>
       <itemPath>src/DatasetManager.h</itemPath>
-      <itemPath>src/Dumbed.h</itemPath>
       <itemPath>src/ErrorMeasure.h</itemPath>
       <itemPath>src/FileLoader.h</itemPath>
       <itemPath>src/ITeachable.h</itemPath>
@@ -42,7 +43,6 @@
         <itemPath>src/Randomize.cpp</itemPath>
         <itemPath>src/SmartMatrix.cpp</itemPath>
       </logicalFolder>
-      <itemPath>src/DumbedDownNeuralNet.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -71,15 +71,15 @@
           <commandLine>-pthread</commandLine>
         </ccTool>
       </compileType>
+      <item path="src/ArtificialIntelligence.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/DataProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DataTypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Dumbed.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/DumbedDownNeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ErrorMeasure.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -149,15 +149,15 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="src/ArtificialIntelligence.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/DataProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/DataTypes.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetLoader.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/DatasetManager.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Dumbed.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/DumbedDownNeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ErrorMeasure.h" ex="false" tool="3" flavor2="0">
       </item>

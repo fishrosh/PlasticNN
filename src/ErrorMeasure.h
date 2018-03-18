@@ -40,7 +40,7 @@ public:
     
     void Evaluate (const Matrix& network_output, const Matrix& labels);
     
-    void SetTrialLimit (ulong _limit);
+    void SetProbeSize (ulong _limit);
     
     bool operator< (const long double& _other) const;
     bool operator> (const long double& _other) const;
@@ -84,17 +84,17 @@ void ErrorMeasure::AddFailure() {
     CheckTrialLimit ();
 }
 
-void ErrorMeasure::SetTrialLimit (ulong _limit) {
+void ErrorMeasure::SetProbeSize (ulong _limit) {
     trial_limit = _limit;
     CheckTrialLimit ();
 }
 
 bool ErrorMeasure::operator <(const long double& _other) const {
-    return GetHitRate () < _other;
+    return 1 - GetHitRate () < _other;
 }
 
 bool ErrorMeasure::operator >(const long double& _other) const {
-    return GetHitRate () > _other;
+    return 1 - GetHitRate () > _other;
 }
 
 bool ErrorMeasure::operator <=(const long double& _other) const {

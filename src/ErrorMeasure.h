@@ -21,7 +21,7 @@
 
 class ErrorMeasure {
     
-    using Matrix = SmartMatrix;
+    // using Matrix = SmartMatrix<>;
     using ulong = unsigned long;
     
     ulong sum = 0;
@@ -38,6 +38,7 @@ public:
     void AddSuccess ();
     void AddFailure ();
     
+    template <class Matrix>
     void Evaluate (const Matrix& network_output, const Matrix& labels);
     
     void SetProbeSize (ulong _limit);
@@ -53,6 +54,8 @@ long double ErrorMeasure::GetHitRate() const {
     return values.size() != 0 ? sum / static_cast <long double> (values.size()) : 0;
 }
 
+
+template <class Matrix>
 void ErrorMeasure::Evaluate(const Matrix& network_output, const Matrix& labels) {
     for (ulong i = 0; i < network_output.RowCount (); ++i) {
         auto& output_row = network_output.extractRow(i);

@@ -7,7 +7,7 @@ class Layer
 {
 public:
         
-        using Matrix = SmartMatrix;
+        using Matrix = SmartMatrix<double>;
 
 	Layer(UINT in, UINT count);
 	Layer(double* data, UINT in, UINT count);

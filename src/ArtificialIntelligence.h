@@ -25,7 +25,7 @@ class ArtificialIntelligence {
     
 public:
     
-    using Matrix = SmartMatrix;
+    using Matrix = SmartMatrix<Real>;
     using ulong = unsigned long;
     using uint = unsigned int;
     

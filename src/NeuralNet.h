@@ -6,7 +6,7 @@ class NeuralNet
 {
 public:
 	using Layers = std::vector<Layer>;
-        using Matrix = SmartMatrix;
+        using Matrix = SmartMatrix<double>;
 
 	NeuralNet(UINT input, std::initializer_list<UINT> lrs);
 	NeuralNet(std::string fileName);

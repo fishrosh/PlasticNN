@@ -18,7 +18,7 @@ template <class network_t = double, class results_t = unsigned int>
 class Interpreter {
 public:
     
-    using Matrix = SmartMatrix;
+    using Matrix = SmartMatrix<network_t>;
     
     static std::vector<results_t> Interpret(const Matrix& network_output);
 };

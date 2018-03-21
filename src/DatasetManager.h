@@ -37,8 +37,8 @@ private:
     std::unique_ptr<input_t> images_ptr;
     std::unique_ptr<input_t> labels_ptr;
     
-    SmartMatrix in {10};
-    SmartMatrix out {10};
+    SmartMatrix<output_t> in {10};
+    SmartMatrix<output_t> out {10};
     
     std::vector<input_t> labels;
     
@@ -55,8 +55,8 @@ public:
     ulong batch_size = 10;
     
     struct Sample {
-        SmartMatrix& in;
-        SmartMatrix& out;
+        SmartMatrix<output_t>& in;
+        SmartMatrix<output_t>& out;
         
         std::vector<input_t>& labels;
     };
@@ -133,7 +133,7 @@ void DatasetManager<output_t, input_t>::LinkImgProc(std::weak_ptr<DataProc> _img
     imgProc = _imgProc.lock();
     
     if (imgProc) {
-        in = SmartMatrix (imgProc->GetOutputLength());
+        in = SmartMatrix<> (imgProc->GetOutputLength());
     }
 }
 
@@ -142,7 +142,7 @@ void DatasetManager<output_t, input_t>::LinkLabelProc(std::weak_ptr<DataProc> _l
     labelProc = _labelProc.lock();
     
     if (labelProc) {
-        out = SmartMatrix (labelProc->GetOutputLength());
+        out = SmartMatrix<> (labelProc->GetOutputLength());
     }
 }
 

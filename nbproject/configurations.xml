@@ -22,6 +22,7 @@
       <itemPath>src/Log.h</itemPath>
       <itemPath>src/LogicGateEval.h</itemPath>
       <itemPath>src/MNIST.h</itemPath>
+      <itemPath>src/MultithreadMultiplicator.h</itemPath>
       <itemPath>src/NeuralNet.h</itemPath>
       <itemPath>src/Randomize.h</itemPath>
       <itemPath>src/SmartMatrix.h</itemPath>
@@ -111,6 +112,8 @@
       </item>
       <item path="src/MNIST.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/MultithreadMultiplicator.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/NeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/NeuralNet.h" ex="false" tool="3" flavor2="0">
@@ -188,6 +191,8 @@
       <item path="src/MNIST.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/MNIST.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/MultithreadMultiplicator.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/NeuralNet.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -27,13 +27,14 @@ public:
 
 private:
 
-    bool transposition_flag{ false };
+    mutable bool transposition_flag{ false };
 	DataSet dataset;
+	
+        UINT M, N;
 
 public:
     
     
-	UINT M, N;
 
 	SmartMatrix() = delete;
 	SmartMatrix(UINT n);
@@ -72,7 +73,8 @@ public:
 
 	Matrix& operator^=(std::function<Real(Real)>);
         
-    Matrix& T();
+    // Matrix& T() const;
+    const Matrix& T() const;
 
 	// tb removed in the final version
 	void addRow(const std::vector<Real>& r);
@@ -94,6 +96,9 @@ public:
     Real& at(UINT i, UINT j);
     ulong RowCount () const { return M; };
     ulong RowLength () const;
+    
+    UINT size_m() const;
+    UINT size_n() const;
 
 	// helpers
 private:
@@ -104,12 +109,7 @@ private:
     void multiply_unit(Real& out, const Matrix& m1, const Matrix& m2);
     void for_each(std::function<void(Real&, Real)> f, const Matrix& other);
     void for_each(std::function<void(Real&)> f);
-        
-        
-    UINT get_m() const;
-    UINT get_n() const;
-        
-
+       
 };
 
 std::ostream& operator<<(std::ostream& out, const SmartMatrix& sm);

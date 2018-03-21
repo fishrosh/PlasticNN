@@ -4,14 +4,9 @@
 
 class NeuralNet
 {
-	using Layers = std::vector<Layer>;
-
-	std::vector<UINT> sizes;
-
-	RandomMatrixGenerator RMG;
-	Layers NNet;
-
 public:
+	using Layers = std::vector<Layer>;
+        using Matrix = SmartMatrix;
 
 	NeuralNet(UINT input, std::initializer_list<UINT> lrs);
 	NeuralNet(std::string fileName);
@@ -20,10 +15,6 @@ public:
 	void Backpropagate(const Matrix& backput);
 	void Update(Matrix& input, double ni);
 
-	void FeedFWD(const Matrix& input, UINT num);
-	void Backpropagate(const Matrix& backput, UINT num);
-	void Update(const Matrix& input, double ni, UINT num);
-
 	void ResetLayers();
         
         const Matrix& GetNetworkOutput () { return NNet.back().GetLayerActivations (); }
@@ -31,4 +22,9 @@ public:
 	bool saveToFile(std::string fileName);
 
 	std::ostream& Out(std::ostream& out) const;
+        
+private:
+
+	std::vector<UINT> sizes;
+	Layers NNet;
 };

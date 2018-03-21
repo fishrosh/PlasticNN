@@ -165,8 +165,8 @@ private:
     
     void runThread( UINT i, const Matrix& m1, const Matrix& m2, Matrix& otpot)
     {
-        for (int j{ 0 }; j < m2.N; ++j) {
-            for (int m{ 0 }; m < m1.N; ++m)
+        for (int j{ 0 }; j < m2.size_n (); ++j) {
+            for (int m{ 0 }; m < m1.size_n (); ++m)
             {
                 otpot.at(i,j) += m1.take(i, m) * m2.take(m, j);
             }
@@ -181,22 +181,22 @@ private:
 
 XMatrix SmartMatrix::operator *(const Matrix& other) const
 {
-    XMatrix output = std::make_unique<Matrix>( this->M, other.N, true );
+    XMatrix output = std::make_unique<Matrix>( this->size_m (), other.size_n(), true );
     
-    if (this->N == other.M) {
+    if (this->size_n() == other.size_m()) {
         
         MultithreadMultiplicator mr;
-        for (UINT i{ 0 }; i < output->M; ++i) {
+        for (UINT i{ 0 }; i < output->size_m (); ++i) {
             
             
-            if (this->N > 1) {
+            if (this->size_n () > 1) {
                 mr(i, *this, other, *output);
             } 
             
             else {
-                for (UINT j{ 0 }; j < output->N; ++j) 
+                for (UINT j{ 0 }; j < output->size_n (); ++j) 
                 {
-                    for (int m{ 0 }; m < this->N; ++m)
+                    for (int m{ 0 }; m < this->size_n (); ++m)
                     {
                         output->at(i, j) += this->take(i, m) * other.take(m, j);
                     }//*/
@@ -314,12 +314,12 @@ void SmartMatrix::concatenate(const Matrix& other)
 {
 	if (other.transposition_flag == this->transposition_flag)
 	{
-		if (this->get_n() == other.get_n())
+		if (this->size_n() == other.size_n())
 		{
 			deep_cpy(other);
-
-			if (transposition_flag) N += other.N;
-			else M += other.M;
+                        M += other.M;
+			//if (transposition_flag) N += other.N;
+			//else M += other.M;
 		}
                 
                 else {
@@ -336,15 +336,15 @@ void SmartMatrix::concatenate(XMatrix other)
 {
     if (other->transposition_flag == this->transposition_flag)
 	{
-		if (this->get_n() == other->get_n())
+		if (this->size_n() == other->size_n())
 		{
                     for (auto& r : *other->dataset)
                     {
                         this->dataset->push_back( std::move(r));
                     }
-
-			if (transposition_flag) N += other->N;
-			else M += other->M;
+                        M += other->M;
+			//if (transposition_flag) N += other->N;
+			//else M += other->M;
 		}
                 
                 else {
@@ -359,7 +359,7 @@ void SmartMatrix::concatenate(XMatrix other)
 
 void SmartMatrix::addRow(const std::vector<Real>& v)
 {
-	if (v.size() == get_n())
+	if (v.size() == size_n())
 	{
 		Row copy = std::make_unique<std::vector<Real>>();
 		std::copy(v.begin(), v.end(), std::back_inserter(*copy));
@@ -381,7 +381,7 @@ const std::vector<Real>& SmartMatrix::extractRow(UINT j) const
 
 SmartMatrix SmartMatrix::matrixFromRow(UINT j)
 {
-	Matrix output{ get_n() };
+	Matrix output{ size_n() };
 	output.addRow(extractRow(j));
 	return output;
 }
@@ -396,10 +396,10 @@ void SmartMatrix::reset()
 /* ASSIGNMENT MATRIX to MATRIX */
 /* *************************** */
 
-SmartMatrix& SmartMatrix::T()
+const SmartMatrix& SmartMatrix::T() const
 {
     transposition_flag = !transposition_flag;
-    std::swap(M, N);
+    // std::swap(M, N);
     return *this;
 }
 
@@ -450,9 +450,9 @@ void SmartMatrix::for_each(std::function<void(Real&, Real)> f, const Matrix& oth
 {
     if (this->M == other.M && this->N == other.N)
     {
-        for (UINT i{ 0 }; i < other.get_m(); ++i) 
+        for (UINT i{ 0 }; i < other.size_m(); ++i) 
         {
-            for (UINT j{ 0 }; j < other.get_n(); ++j) 
+            for (UINT j{ 0 }; j < other.size_n(); ++j) 
             {
                 // this->at(i,j) += other.take(i,j);
                 f(this->at(i,j), other.take(i,j));
@@ -469,9 +469,9 @@ void SmartMatrix::for_each(std::function<void(Real&, Real)> f, const Matrix& oth
 
 void SmartMatrix::for_each(std::function<void(Real&)> f)
 {
-    for (UINT i{ 0 }; i < get_m(); ++i) 
+    for (UINT i{ 0 }; i < size_m(); ++i) 
     {
-        for (UINT j{ 0 }; j < get_n(); ++j) 
+        for (UINT j{ 0 }; j < size_n(); ++j) 
         {
             // this->at(i,j) += other.take(i,j);
             f(this->at(i,j));
@@ -490,12 +490,12 @@ Real SmartMatrix::take(UINT i, UINT j) const
     return !transposition_flag ? (*(( *dataset )[i]))[j] : (*(( *dataset )[j]))[i];
 }
 
-UINT SmartMatrix::get_m() const
+UINT SmartMatrix::size_m() const
 {
     return this->transposition_flag ? N : M;
 }
 
-UINT SmartMatrix::get_n() const
+UINT SmartMatrix::size_n() const
 {
     return this->transposition_flag ? M : N;
 }

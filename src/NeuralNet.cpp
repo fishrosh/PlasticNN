@@ -7,7 +7,7 @@ NeuralNet::NeuralNet(UINT input, std::initializer_list<UINT> lrs)
 	sizes.push_back(sunt);
 	for (UINT l : lrs)
 	{
-		NNet.push_back(Layer{ RMG, sunt, l });
+		NNet.push_back(Layer{ sunt, l });
 		sunt = l;
 		sizes.push_back(sunt);
 	}
@@ -72,38 +72,12 @@ void NeuralNet::Backpropagate(const Matrix& backput)
 
 void NeuralNet::Update(Matrix& input, double ni)
 {
-	Matrix* cInput = &input;
+	Matrix const * cInput = &input;
 	for (Layer& l : NNet)
 	{
 		l.Update(*cInput, ni);
 		cInput = &l.Sigmas();
 	}
-}
-
-void NeuralNet::FeedFWD(const Matrix& input, UINT num)
-{
-	Matrix cInput = input;
-	for (Layer& l : NNet)
-	{
-		l.FeedFWD(cInput);
-		cInput = l.Sigmas(num);
-	}
-}
-
-void NeuralNet::Backpropagate(const Matrix& backput, UINT num)
-{
-	std::allocator<Matrix> alloc;
-	Matrix* backprop = alloc.allocate(1);
-	alloc.construct(backprop, NNet.back().Sigmas(num) - backput);
-
-	for (auto it = NNet.rbegin(); it != NNet.rend(); ++it)
-	{
-		(*it).Backpropagate(*backprop);
-		alloc.destroy(backprop);
-		alloc.construct(backprop, (*it).Errors(num) * (*it).Weights().T());
-                (*it).Weights().T();
-	}
-	alloc.destroy(backprop);
 }
 
 void NeuralNet::ResetLayers()
@@ -117,7 +91,7 @@ void NeuralNet::ResetLayers()
 bool NeuralNet::saveToFile(std::string fileName)
 {
 	auto extractToFile = [](const Matrix& m, std::ofstream& ofs) {
-		for (int i{ 0 }; i < m.M; ++i) {
+		for (int i{ 0 }; i < m.RowCount(); ++i) {
 			const std::vector<double>& r = m.extractRow(i);
 			for (double d : r) {
 				ofs.write(reinterpret_cast<char*>(&d), sizeof d);

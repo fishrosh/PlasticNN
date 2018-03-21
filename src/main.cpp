@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     #else
         MNISTLoader images("/home/kamil/train-images.idx3-ubyte");
         MNISTLoader labels("/home/kamil/train-labels.idx1-ubyte");
-    #endif // !LINUX_PLATFORM
+    #endif 
 
      ITeachable<> teachable;
      DatasetManager<> dataset;
@@ -56,7 +56,6 @@ int main(int argc, char** argv) {
 
      std::shared_ptr<LabelProcessor<>> labelProc = std::make_shared <LabelProcessor<>> ();
      dataset.LinkLabelProc(labelProc);
-     //imgProc->inMax = 255;
 
      dataset.LoadDataset(images, labels);
 
@@ -70,9 +69,7 @@ int main(int argc, char** argv) {
     
     std::this_thread::sleep_for(1s);
 
-     tutor.SDG(ai, dataset);//*/
-
-    // MNISTStochasticRun ();
+     tutor.SDG(ai, dataset);
 
     return 0;
 }

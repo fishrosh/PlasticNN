@@ -31,8 +31,8 @@ public:
     
 private:
         
-    std::shared_ptr<DataProcessor<>> imgProc;
-    std::shared_ptr<DataProcessor<>> labelProc;
+    std::shared_ptr<DataProc> imgProc;
+    std::shared_ptr<DataProc> labelProc;
     
     std::unique_ptr<input_t> images_ptr;
     std::unique_ptr<input_t> labels_ptr;
@@ -133,7 +133,7 @@ void DatasetManager<output_t, input_t>::LinkImgProc(std::weak_ptr<DataProc> _img
     imgProc = _imgProc.lock();
     
     if (imgProc) {
-        in = SmartMatrix<> (imgProc->GetOutputLength());
+        in = SmartMatrix<output_t> (imgProc->GetOutputLength());
     }
 }
 
@@ -142,7 +142,7 @@ void DatasetManager<output_t, input_t>::LinkLabelProc(std::weak_ptr<DataProc> _l
     labelProc = _labelProc.lock();
     
     if (labelProc) {
-        out = SmartMatrix<> (labelProc->GetOutputLength());
+        out = SmartMatrix<output_t> (labelProc->GetOutputLength());
     }
 }
 
@@ -197,8 +197,8 @@ typename DatasetManager<output_t, input_t>::DatasetIterator& DatasetManager<outp
         dataset.imgProc->operator ()(imageVec, dataset.images_ptr, index);
         dataset.labelProc->operator ()(labelVec, dataset.labels_ptr, index);
         
-        dataset.in.addRow(imageVec);
-        dataset.out.addRow(labelVec);
+        dataset.in.concatenate(imageVec);
+        dataset.out.concatenate(labelVec);
         
         dataset.labels.push_back(*(dataset.labels_ptr.get() + index));
 

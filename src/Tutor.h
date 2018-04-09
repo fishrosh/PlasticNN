@@ -33,11 +33,11 @@ class Tutor {
     
 public:
     
-    void SDG (ArtificialIntelligence<>& ai, DatasetManager<Real, input_t>& dataset);
+    void SDG (ArtificialIntelligence<Real>& ai, DatasetManager<Real, input_t>& dataset);
 };
 
 template <class Real, class input_t>
-void Tutor <Real, input_t>::SDG(ArtificialIntelligence<>& ai, DatasetManager<Real, input_t>& dataset) {
+void Tutor <Real, input_t>::SDG(ArtificialIntelligence<Real>& ai, DatasetManager<Real, input_t>& dataset) {
 
     BatchData bd;
     

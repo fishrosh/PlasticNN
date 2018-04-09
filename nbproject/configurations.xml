@@ -10,6 +10,10 @@
         <itemPath>src/ImgIdentity.h</itemPath>
         <itemPath>src/LabelProcessor.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="f2" displayName="Matrix" projectFiles="true">
+        <itemPath>src/SmartMatrix.h</itemPath>
+        <itemPath>src/SmartMatrix.hpp</itemPath>
+      </logicalFolder>
       <itemPath>src/ArtificialIntelligence.h</itemPath>
       <itemPath>src/DataTypes.h</itemPath>
       <itemPath>src/DatasetLoader.h</itemPath>
@@ -25,7 +29,6 @@
       <itemPath>src/MultithreadMultiplicator.h</itemPath>
       <itemPath>src/NeuralNet.h</itemPath>
       <itemPath>src/Randomize.h</itemPath>
-      <itemPath>src/SmartMatrix.h</itemPath>
       <itemPath>src/Tutor.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -126,6 +129,8 @@
       </item>
       <item path="src/SmartMatrix.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/SmartMatrix.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Tutor.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
@@ -205,6 +210,8 @@
       <item path="src/SmartMatrix.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/SmartMatrix.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SmartMatrix.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tutor.h" ex="false" tool="3" flavor2="0">
       </item>

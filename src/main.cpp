@@ -29,14 +29,10 @@ extern void MNISTStochasticRun ();
 
 using namespace std;
 
-/*
- * 
- */
-int main(int argc, char** argv) {
-    
-    Log::BindInstance(std::make_shared<Log> ());
+template <class Real, class input_t>
+void Program () {
 
-    Tutor<> tutor;
+    Tutor<Real, input_t> tutor;
 
     #ifndef LINUX_PLATFORM
         MNISTLoader images("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-images.idx3-ubyte");
@@ -46,15 +42,14 @@ int main(int argc, char** argv) {
         MNISTLoader labels("/home/kamil/train-labels.idx1-ubyte");
     #endif 
 
-     ITeachable<> teachable;
-     DatasetManager<> dataset;
+     DatasetManager<Real, input_t> dataset;
 
-     std::shared_ptr<ImgIdentity<>> imgProc = std::make_shared <ImgIdentity<>> ();
+     std::shared_ptr<ImgIdentity<Real, input_t>> imgProc = std::make_shared <ImgIdentity<Real, input_t>> ();
      imgProc->inSizeX = 28;
      imgProc->inSizeY = 28;
      dataset.LinkImgProc(imgProc);
 
-     std::shared_ptr<LabelProcessor<>> labelProc = std::make_shared <LabelProcessor<>> ();
+     std::shared_ptr<LabelProcessor<Real, input_t>> labelProc = std::make_shared <LabelProcessor<Real, input_t>> ();
      dataset.LinkLabelProc(labelProc);
 
      dataset.LoadDataset(images, labels);
@@ -62,7 +57,7 @@ int main(int argc, char** argv) {
     UINT inputXSize = 28;
     UINT inputYSize = 28;
 
-    ArtificialIntelligence<> ai {inputXSize * inputYSize,{ 15, 10 }};
+    ArtificialIntelligence<Real> ai {inputXSize * inputYSize,{ 15, 10 }};
     
     ai.learning_rate = 0.3;
     ai.folderPath = "logs/mnist";
@@ -70,6 +65,16 @@ int main(int argc, char** argv) {
     std::this_thread::sleep_for(1s);
 
      tutor.SDG(ai, dataset);
+}
+
+/*
+ * 
+ */
+int main(int argc, char** argv) {
+    
+    
+    Log::BindInstance(std::make_shared<Log> ());
+    Program <float, unsigned char> ();
 
     return 0;
 }

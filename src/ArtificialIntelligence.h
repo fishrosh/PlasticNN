@@ -34,7 +34,7 @@ public:
     
     ArtificialIntelligence(uint input_size, std::initializer_list<uint> layer_sizes);
     
-    const std::unique_ptr <NeuralNet> network;
+    const std::unique_ptr <NeuralNet<Real>> network;
     
     virtual void OnPreLearning ();
     virtual void OnPreEpoch (ulong epoch);
@@ -50,7 +50,7 @@ public:
 
 template <class Real>
 ArtificialIntelligence<Real>::ArtificialIntelligence(uint input_size, std::initializer_list<uint> layer_sizes)
-    : network {std::make_unique<NeuralNet> (input_size, layer_sizes)}
+    : network {std::make_unique<NeuralNet<Real>> (input_size, layer_sizes)}
 {
     error.SetProbeSize(30000);
 }
@@ -80,7 +80,7 @@ void ArtificialIntelligence<Real>::OnPostBatch(const Matrix& labels, const Batch
     Log::i("{ " + std::to_string(bd.epoch) + " } " + "Batch :: " + std::to_string(bd.batch) + " :: ");
     
     error.Evaluate(network->GetNetworkOutput(), labels);
-    std::vector<uint> results = Interpreter<>::Interpret(network->GetNetworkOutput());
+    std::vector<uint> results = Interpreter<Real, uint>::Interpret(network->GetNetworkOutput());
 
     for (const auto& v : results) {
         Log::i(" " + std::to_string(v));

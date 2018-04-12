@@ -60,6 +60,17 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -72,7 +83,7 @@
       <compileType>
         <ccTool>
           <standard>11</standard>
-          <commandLine>-pthread</commandLine>
+          <commandLine>-pthread -ffast-math -O2</commandLine>
         </ccTool>
       </compileType>
       <item path="src/ArtificialIntelligence.h" ex="false" tool="3" flavor2="0">

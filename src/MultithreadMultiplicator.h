@@ -82,7 +82,7 @@ private:
     static thread_local ulong local_N;
     
     std::mutex count_mutex;
-    ulong job_count, done_count, dispatched_count;
+    volatile ulong job_count, done_count, dispatched_count;
     
     std::mutex job_mutex;
     Job job;

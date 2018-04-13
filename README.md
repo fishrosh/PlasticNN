@@ -1,3 +1,3 @@
-# stochastic_gradient_nn
-net with stochastic gradient applied
+# Plastic Neural Network
+simple neural net for simple peaple
 # PlasticNN

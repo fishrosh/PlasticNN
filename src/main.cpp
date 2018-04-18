@@ -38,8 +38,8 @@ void Program () {
         MNISTLoader images("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-images.idx3-ubyte");
         MNISTLoader labels("C:\\Users\\Kamil\\Downloads\\biernaty\\mnist\\train-labels.idx1-ubyte");
     #else
-        MNISTLoader images("/home/kamil/train-images.idx3-ubyte");
-        MNISTLoader labels("/home/kamil/train-labels.idx1-ubyte");
+        MNISTLoader images("./train-images.idx3-ubyte");
+        MNISTLoader labels("./train-labels.idx1-ubyte");
     #endif 
 
      DatasetManager<Real, input_t> dataset;
